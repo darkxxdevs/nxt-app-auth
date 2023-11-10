@@ -2,11 +2,14 @@
 import axios from "axios"
 import Link from "next/link"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import dynamic from "next/dynamic"
 import React, { useEffect } from "react"
 import { Eye, EyeOff } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
-export default function Login() {
+const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -32,10 +35,28 @@ export default function Login() {
     try {
       setLoading(true)
       const response = await axios.post("/api/user/login", user)
-      console.log("login sucess!", response.data)
-      router.push("/")
+      toast.success("Logged in successfully!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      })
+      router.push("/users/profile/1")
     } catch (error: any) {
-      console.log("login failed", error)
+      toast.error("Incorrect email or username!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      })
     } finally {
       setLoading(false)
     }
@@ -43,6 +64,18 @@ export default function Login() {
 
   return (
     <div className="h-[100vh] w-full flex items-center justify-center">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {loading ? (
         <h1>processing.....</h1>
       ) : (
@@ -101,7 +134,7 @@ export default function Login() {
               onClick={onLogin}
               className="bg-slate-400 rounded-md font-bold p-5 w-96"
             >
-              {buttonDisabled ? "no login" : "login"}
+              <span>{buttonDisabled ? "no login" : "login"}</span>
             </button>
           </div>
         </div>
@@ -109,3 +142,5 @@ export default function Login() {
     </div>
   )
 }
+
+export default dynamic(() => Promise.resolve(Login), { ssr: false })

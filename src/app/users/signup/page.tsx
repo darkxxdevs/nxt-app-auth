@@ -1,12 +1,12 @@
 "use client"
 import axios from "axios"
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff } from "lucide-react"
 import React, { useState, useEffect } from "react"
-import toast from "react-hot-toast"
 
-export default function Login() {
+const signup = () => {
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -124,3 +124,5 @@ export default function Login() {
     </div>
   )
 }
+
+export default dynamic(() => Promise.resolve(signup), { ssr: false })
