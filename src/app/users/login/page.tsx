@@ -45,7 +45,7 @@ const Login = () => {
         progress: undefined,
         theme: "dark",
       })
-      router.push("/users/profile/1")
+      router.push("/users/profile")
     } catch (error: any) {
       toast.error("Incorrect email or username!", {
         position: "bottom-right",
@@ -132,9 +132,11 @@ const Login = () => {
           <div className="btn flex items-center w-full mt-[3%] justify-center">
             <button
               onClick={onLogin}
-              className="bg-slate-400 rounded-md font-bold p-5 w-96"
+              className={`${
+                buttonDisabled ? "line-through" : "no-underline"
+              } bg-slate-400 rounded-md font-bold p-5 w-96`}
             >
-              <span>{buttonDisabled ? "no login" : "login"}</span>
+              <span className="font-bold">logout</span>
             </button>
           </div>
         </div>

@@ -2,8 +2,9 @@
 import axios from "axios"
 import Link from "next/link"
 import dynamic from "next/dynamic"
-import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
 import { Eye, EyeOff } from "lucide-react"
+import { useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
 
 const signup = () => {
@@ -22,7 +23,11 @@ const signup = () => {
   }, [])
 
   useEffect(() => {
-    if (user.email.length > 0 && user.username.length > 0) {
+    if (
+      user.email.length > 0 &&
+      user.username.length > 0 &&
+      user.password.length > 0
+    ) {
       setButtonDisabled(false)
     } else {
       setButtonDisabled(true)
@@ -33,11 +38,11 @@ const signup = () => {
     try {
       setLoading(true)
       const response = await axios.post("/api/user/signup", user)
-      console.log("Signup sucess!", response.data)
+      toast.success("Signup sucess!")
       router.push("/users/login")
     } catch (error: any) {
       console.log("Signup failed", error)
-      toast.error("Error in creating accout:", error.message)
+      toast.error("Error in creating accout!!")
     } finally {
       setLoading(false)
     }
@@ -114,9 +119,11 @@ const signup = () => {
           <div className="btn flex items-center w-full mt-[3%] justify-center">
             <button
               onClick={onSignup}
-              className="bg-slate-400 rounded-md font-bold p-5 w-96"
+              className={`${
+                buttonDisabled ? "line-through" : "no-underline"
+              } bg-slate-400 rounded-md font-bold p-5 w-96`}
             >
-              {buttonDisabled ? "No signup" : "sign up"}
+              <span className="font-bold">sign up</span>
             </button>
           </div>
         </div>

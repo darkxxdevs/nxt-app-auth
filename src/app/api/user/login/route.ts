@@ -3,7 +3,6 @@ import bcryptjs from "bcryptjs"
 import User from "@/models/userModel"
 import { connectToDatabase } from "@/db/dbConnection"
 import { NextRequest, NextResponse } from "next/server"
-import { JsonWebTokenError } from "jsonwebtoken"
 
 connectToDatabase()
 

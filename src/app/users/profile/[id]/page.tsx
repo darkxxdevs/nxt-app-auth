@@ -4,7 +4,7 @@ interface ProfilePageProps {
   id: string
 }
 
-const Profile: React.FC<ProfilePageProps> = (params) => {
+const Profile: React.FC<ProfilePageProps> = ({ params }) => {
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center">
       UserID :{" "}
