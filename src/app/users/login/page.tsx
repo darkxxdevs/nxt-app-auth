@@ -136,7 +136,7 @@ const Login = () => {
                 buttonDisabled ? "line-through" : "no-underline"
               } bg-slate-400 rounded-md font-bold p-5 w-96`}
             >
-              <span className="font-bold">logout</span>
+              <span className="font-bold">login</span>
             </button>
           </div>
         </div>

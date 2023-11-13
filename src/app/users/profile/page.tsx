@@ -1,8 +1,9 @@
 "use client"
-import React from "react"
+import React, { useState } from "react"
 import axios from "axios"
 
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 const Profile = () => {
   const router = useRouter()
@@ -16,6 +17,19 @@ const Profile = () => {
       console.log("Error :", error)
     }
   }
+
+  useEffect(() => {
+    async function getUserData() {
+      try {
+        const response = await axios.get("/api/user/details/")
+        router.push(`/users/profile/${response.data.userData._id}`)
+      } catch (error: any) {
+        console.error("error fetching user data ", error.message)
+      }
+    }
+
+    getUserData()
+  }, [])
 
   return (
     <div className="h-[70vh] w-[100vw] flex flex-col items-center justify-center">

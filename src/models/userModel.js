@@ -32,12 +32,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-let User
-
-try {
-  User = mongoose.model("User")
-} catch (error) {
-  User = mongoose.model("User", userSchema)
-}
+const User = mongoose.models.User || mongoose.model("User", userSchema)
 
 export default User
