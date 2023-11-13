@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
     const user = await User.findOne({ _id: userID }).select("-password")
 
     if (user) {
-      console.log(user)
       return NextResponse.json({
         message: "success",
         userData: user,
