@@ -1,21 +1,23 @@
-import bcryptjs from "bcryptjs"
 import nodemailer from "nodemailer"
 import User from "@/models/userModel"
+import bcryptjs from "bcryptjs"
 
-export const sendEmail = async ({ email, emailtype, userId }: any) => {
+export const sendEmail = async ({ email, emailType, userId }: any) => {
   try {
-    // hashed token creation
-    const hashedToken = bcryptjs.hash(userId.toString(), 10)
+    // create a hashed token
+    const hashedToken = await bcryptjs.hash(userId.toString(), 10)
 
-    if (emailtype === "VERIFY") {
+    console.log(emailType)
+
+    if (emailType == "VERIFY") {
       await User.findByIdAndUpdate(userId, {
         verifyToken: hashedToken,
         verifyTokenExpiry: Date.now() + 3600000,
       })
-    } else if (emailtype === "RESET") {
+    } else if (emailType == "RESET") {
       await User.findByIdAndUpdate(userId, {
-        verifyToken: hashedToken,
-        verifyTokenExpiry: Date.now() + 3600000,
+        forgotPasswordToken: hashedToken,
+        forgotPasswordTokenExpiry: Date.now() + 3600000,
       })
     }
 
@@ -26,11 +28,26 @@ export const sendEmail = async ({ email, emailtype, userId }: any) => {
         user: process.env.NODEMAILER_USER,
         pass: process.env.NODEMAILER_PASS,
       },
-    })
+    } as nodemailer.TransportOptions)
 
     const mailOptions = {
-      from: "",
+      from: "arpit2003y@gmail.com",
+      to: email,
+      subject:
+        emailType === "VERIFY" ? "Verify your email" : "Reset your password",
+      html: `<p>Click <a href="${
+        process.env.DOMAIN
+      }/users/verifyemail?token=${hashedToken}">here</a> to ${
+        emailType === "VERIFY" ? "verify your email" : "reset your password"
+      }
+            or copy and paste the link below in your browser. <br> ${
+              process.env.DOMAIN
+            }/users/verifyemail?token=${hashedToken}
+            </p>`,
     }
+
+    const mailresponse = await transport.sendMail(mailOptions)
+    return mailresponse
   } catch (error: any) {
     throw new Error(error.message)
   }
