@@ -7,7 +7,9 @@ export function middleware(req: NextRequest) {
   const isPublicRoute =
     path === "/users/login" ||
     path === "/users/signup" ||
-    path === "/users/verifyemail"
+    path === "/users/verifyemail" ||
+    path === "/users/recovery/password" ||
+    path === "/users/recovery"
 
   const token = req.cookies.get("token")?.value || ""
 
@@ -27,5 +29,7 @@ export const config = {
     "/users/signup",
     "/users/profile/:path*",
     "/users/verifyemail",
+    "/users/recovery/password",
+    "/users/recovery",
   ],
 }

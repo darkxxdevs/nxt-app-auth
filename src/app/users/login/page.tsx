@@ -123,10 +123,14 @@ const Login = () => {
             </span>
           </div>
           <span className="pt-5 text-sm mb-6">
-            don't have an accout ?
+            don&apos;t have an account ?
             <Link href={"/users/signup"} className="text-zinc-400">
               Signup
             </Link>
+          </span>
+          <br />
+          <span className="forgot-password text-gray-500">
+            <Link href={"/users/recovery"}>forgot password?</Link>
           </span>
 
           <div className="btn flex items-center w-full mt-[3%] justify-center">

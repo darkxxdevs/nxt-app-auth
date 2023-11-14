@@ -6,11 +6,12 @@ connectToDatabase()
 
 export const POST = async (req: NextRequest) => {
   try {
+    console.log("reset invoked!!")
     const reqBody = await req.json()
     const { token } = reqBody
     console.log(token)
 
-    const user = await User.findOne({
+    const user = await User.findOneAndUpdate({
       verifyToken: token,
       verifyTokenExpiry: { $gt: Date.now() },
     })
@@ -18,6 +19,8 @@ export const POST = async (req: NextRequest) => {
     if (!user) {
       return NextResponse.json({ error: "Invalid token" }, { status: 400 })
     }
+
+    console.log("user:=", user)
 
     user.isVerified = true
     user.verifyToken = undefined

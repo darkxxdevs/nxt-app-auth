@@ -7,8 +7,6 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
     // create a hashed token
     const hashedToken = await bcryptjs.hash(userId.toString(), 10)
 
-    console.log(emailType)
-
     if (emailType == "VERIFY") {
       await User.findByIdAndUpdate(userId, {
         verifyToken: hashedToken,
@@ -42,7 +40,9 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       }
             or copy and paste the link below in your browser. <br> ${
               process.env.DOMAIN
-            }/users/verifyemail?token=${hashedToken}
+            }/users/${
+              emailType === "VERIFY" ? "verifyemail" : "/recovery/password"
+            }?token=${hashedToken}
             </p>`,
     }
 

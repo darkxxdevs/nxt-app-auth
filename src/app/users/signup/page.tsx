@@ -7,7 +7,7 @@ import { Eye, EyeOff } from "lucide-react"
 import { useRouter } from "next/navigation"
 import React, { useState, useEffect } from "react"
 
-const signup = () => {
+const Signup = () => {
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -132,4 +132,4 @@ const signup = () => {
   )
 }
 
-export default dynamic(() => Promise.resolve(signup), { ssr: false })
+export default dynamic(() => Promise.resolve(Signup), { ssr: false })

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import Link from "next/link"
 
-export default function verifyMAil() {
+export default function VerifyMAil() {
   const [token, setToken] = useState("")
   const [isVerified, setIsVerified] = useState(false)
   const [error, setError] = useState(false)
